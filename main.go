@@ -7,13 +7,21 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
+	"github.com/zhe-ma/login-server-study/config"
 	"github.com/zhe-ma/login-server-study/router"
 )
 
+var configFilePath = pflag.StringP("config_file", "c", "", "Config file path")
+
 func pingServer() error {
-	for i := 0; i < 2; i++ {
-		rsp, err := http.Get("http://localhost:8080/version")
-		if err == nil && rsp.StatusCode == 200 {
+	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
+		url := "http://localhost" + viper.GetString("port") + "/version"
+		log.Println("Ping URL: ", url)
+
+		rsp, err := http.Get(url)
+		if err == nil && rsp.StatusCode == http.StatusOK {
 			return nil
 		}
 
@@ -24,6 +32,15 @@ func pingServer() error {
 }
 
 func main() {
+	pflag.Parse()
+
+	if err := config.Init(*configFilePath); err != nil {
+		panic(err)
+	}
+
+	gin.SetMode(viper.GetString("run_mode"))
+	log.Println("Running mode from config file", viper.GetString("run_mode"))
+
 	engine := gin.New()
 
 	middlewares := []gin.HandlerFunc{}
@@ -39,5 +56,5 @@ func main() {
 		log.Println("Ping server successfully!")
 	}()
 
-	engine.Run()
+	engine.Run(viper.GetString("port"))
 }

@@ -23,16 +23,14 @@ func GetVersion(c *gin.Context) {
 }
 
 func GetComputerInfo(c *gin.Context) {
-	const percent string = "%%"
-
 	// Get Disk info.
 	diskName := "C:\\"
 	diskStat, _ := disk.Usage(diskName)
 	usedSpace := float32(diskStat.Used) / GB
 	totalSpace := float32(diskStat.Total) / GB
 	freePercent := float32(diskStat.Free) / float32(diskStat.Total) * 100
-	diskStr := fmt.Sprintf("Disk (%s) info:\n\tTotal space %.1fGB\n\tUsed space %.1fGB\n\tFree percent %.1f%s\n",
-		diskName, totalSpace, usedSpace, freePercent, percent)
+	diskStr := fmt.Sprintf("Disk (%s) info:\n\tTotal space %.1fGB\n\tUsed space %.1fGB\n\tFree percent %.1f%%\n",
+		diskName, totalSpace, usedSpace, freePercent)
 
 	// Get CPU info.
 	cpuPhysicalCores, _ := cpu.Counts(false)
@@ -44,8 +42,8 @@ func GetComputerInfo(c *gin.Context) {
 	usedSpace = float32(memoryStat.Used) / GB
 	totalSpace = float32(memoryStat.Total) / GB
 	freePercent = float32(memoryStat.Available) / float32(memoryStat.Total) * 100
-	memeryStr := fmt.Sprintf("Memory info:\n\tTotal space %.2fGB\n\tUsed space %.2fGB\n\tFree percent %.1f%s\n",
-		totalSpace, usedSpace, freePercent, percent)
+	memeryStr := fmt.Sprintf("Memory info:\n\tTotal space %.2fGB\n\tUsed space %.2fGB\n\tFree percent %.1f%%\n",
+		totalSpace, usedSpace, freePercent)
 
 	str := diskStr + cpuStr + memeryStr
 
