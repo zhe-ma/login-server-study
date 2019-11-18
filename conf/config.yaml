@@ -1,3 +1,12 @@
 port : :8080  # Http server port.
 run_mode : debug  # Server running Mode: debug, release, test.
 max_ping_count : 10  #  Self check count.
+log:
+  writers: file,stdout
+  logger_level: DEBUG
+  logger_file: log/login_server.log
+  log_format_text: false
+  rollingPolicy: size
+  log_rotate_date: 1
+  log_rotate_size: 1
+  log_backup_count: 7

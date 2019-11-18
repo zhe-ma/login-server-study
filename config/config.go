@@ -1,10 +1,10 @@
 package config
 
 import (
-	"log"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/lexkong/log"
 	"github.com/spf13/viper"
 )
 
@@ -21,6 +21,7 @@ func Init(configFile string) error {
 		return err
 	}
 
+	config.initLoging()
 	config.watchConfig()
 
 	return nil
@@ -46,6 +47,21 @@ func (c *Config) init() error {
 	}
 
 	return nil
+}
+
+func (c *Config) initLoging() {
+	log_cfg := log.PassLagerCfg{
+		Writers:        viper.GetString("log.writers"),
+		LoggerLevel:    viper.GetString("log.logger_level"),
+		LoggerFile:     viper.GetString("log.logger_file"),
+		LogFormatText:  viper.GetBool("log.log_format_text"),
+		RollingPolicy:  viper.GetString("log.rollingPolicy"),
+		LogRotateDate:  viper.GetInt("log.log_rotate_date"),
+		LogRotateSize:  viper.GetInt("log.log_rotate_size"),
+		LogBackupCount: viper.GetInt("log.log_backup_count"),
+	}
+
+	log.InitWithConfig(log_cfg)
 }
 
 func (c *Config) watchConfig() {

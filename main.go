@@ -2,11 +2,11 @@ package main
 
 import (
 	"errors"
-	"log"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lexkong/log"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/zhe-ma/login-server-study/config"
