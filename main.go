@@ -18,7 +18,7 @@ var configFilePath = pflag.StringP("config_file", "c", "", "Config file path")
 func pingServer() error {
 	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
 		url := "http://localhost" + viper.GetString("port") + "/version"
-		log.Println("Ping URL: ", url)
+		log.Debugf("Ping URL: %s", url)
 
 		rsp, err := http.Get(url)
 		if err == nil && rsp.StatusCode == http.StatusOK {
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	gin.SetMode(viper.GetString("run_mode"))
-	log.Println("Running mode from config file", viper.GetString("run_mode"))
+	log.Debugf("Running mode from config file %s", viper.GetString("run_mode"))
 
 	engine := gin.New()
 
@@ -53,7 +53,7 @@ func main() {
 			log.Fatal("Failed to ping server. The server has not response. Error: ", err)
 			return
 		}
-		log.Println("Ping server successfully!")
+		log.Debug("Ping server successfully!")
 	}()
 
 	engine.Run(viper.GetString("port"))

@@ -50,7 +50,7 @@ func (c *Config) init() error {
 }
 
 func (c *Config) initLoging() {
-	log_cfg := log.PassLagerCfg{
+	logCfg := log.PassLagerCfg{
 		Writers:        viper.GetString("log.writers"),
 		LoggerLevel:    viper.GetString("log.logger_level"),
 		LoggerFile:     viper.GetString("log.logger_file"),
@@ -61,12 +61,12 @@ func (c *Config) initLoging() {
 		LogBackupCount: viper.GetInt("log.log_backup_count"),
 	}
 
-	log.InitWithConfig(log_cfg)
+	log.InitWithConfig(&logCfg)
 }
 
 func (c *Config) watchConfig() {
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		log.Println("Config file changed: ", e.Name)
+		log.Debugf("Config file changed: %s", e.Name)
 	})
 }
