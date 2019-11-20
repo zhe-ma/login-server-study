@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/zhe-ma/login-server-study/config"
+	"github.com/zhe-ma/login-server-study/model"
 	"github.com/zhe-ma/login-server-study/router"
 )
 
@@ -37,6 +38,9 @@ func main() {
 	if err := config.Init(*configFilePath); err != nil {
 		panic(err)
 	}
+
+	model.DB.Open()
+	defer model.DB.Close()
 
 	gin.SetMode(viper.GetString("run_mode"))
 	log.Debugf("Running mode from config file %s", viper.GetString("run_mode"))

@@ -10,3 +10,13 @@ log:
   log_rotate_date: 1
   log_rotate_size: 1
   log_backup_count: 7
+db:
+  name: db_login_server
+  addr: 127.0.0.1:3306
+  username: root
+  password: qwe123
+docker_db:
+  name: db_login_server
+  addr: 127.0.0.1:3306
+  username: root
+  password: qwe123
