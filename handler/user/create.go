@@ -33,5 +33,5 @@ func Create(c *gin.Context) {
 	}
 
 	code, message := errno.DecodeError(err)
-	c.JSON(http.StatusOK, gin.H{"code": code, "message", message})
+	c.JSON(http.StatusOK, gin.H{"code": code, "message": message})
 }

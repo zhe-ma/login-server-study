@@ -17,7 +17,7 @@ type Err struct {
 	Detail  error
 }
 
-func New(errno *Errno, detail error) {
+func New(errno *Errno, detail error) *Err {
 	return &Err{
 		Code:    errno.Code,
 		Message: errno.Message,

@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zhe-ma/login-server-study/handle/user"
 	"github.com/zhe-ma/login-server-study/handler"
+	"github.com/zhe-ma/login-server-study/handler/user"
 	"github.com/zhe-ma/login-server-study/router/middleware"
 )
 

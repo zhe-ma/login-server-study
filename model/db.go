@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jinzhu/gorm"
-	"github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/lexkong/log"
 	"github.com/spf13/viper"
 )
@@ -18,8 +18,8 @@ var DB *Database
 
 func (db *Database) Open() {
 	db = &Database{
-		Self:  OpenMysqlDB(),
-		Doker: nil,
+		Self:   OpenSelfDb(),
+		Docker: nil,
 	}
 }
 
@@ -49,23 +49,23 @@ func OpenDockerDb() *gorm.DB {
 		viper.GetString("docker_db.name"))
 }
 
-func OpenMysqlDB(username, password, addr, db_name string) *gorm.DB {
-	connection_string := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=%t&loc=%s",
+func OpenMysqlDB(username, password, addr, dbName string) *gorm.DB {
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=%t&loc=%s",
 		username,
 		password,
 		addr,
-		db_name,
+		dbName,
 		true,
 		"Local")
 
-	log.Debugf("DB connection string: %s", connection_string)
+	log.Debugf("DB connection string: %s", connectionString)
 
-	db, err := gorm.Open("mysql", connection_string)
+	db, err := gorm.Open("mysql", connectionString)
 	if err != nil {
 		log.Errorf(err, "Failed to connection DB")
 	}
 
-	setupDB()
+	setupDB(db)
 
 	return db
 }

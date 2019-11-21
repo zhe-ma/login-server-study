@@ -1,6 +1,6 @@
 package errno
 
-const (
+var (
 	// Common errors
 	OK                  = &Errno{Code: 0, Message: "OK"}
 	InternalServerError = &Errno{Code: 10001, Message: "Internal server error."}
