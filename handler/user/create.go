@@ -6,32 +6,41 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
+	"github.com/lexkong/log/lager"
+	"github.com/zhe-ma/login-server-study/handler/handler"
+	"github.com/zhe-ma/login-server-study/model"
 	"github.com/zhe-ma/login-server-study/pkg/errno"
+	"github.com/zhe-ma/login-server-study/util"
 )
 
 func Create(c *gin.Context) {
-	var user struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
+	log.Info("User create function called.", lager.Data{"X-Request-Id": util.GetRequestId(c)})
 
-	var err error
-	if err := c.Bind(&user); err != nil {
-		c.JSON(http.StatusOK, gin.H{"error": errno.ErrBind})
+	var r CeateRequest
+	if err := c.Bind(&r); err != nil {
+		SendResponse(c, errno.ErrBind, nil)
 		return
 	}
 
-	log.Debugf("username: %s, password: %s", user.Username, user.Password)
-
-	if user.Username == "" {
-		err := errno.New(errno.ErrUserNotFound, fmt.Errorf("username can't be empty"))
-		log.Errorf(err, "Get an error")
+	u := model.UserModel{
+		Username: r.Username,
+		Password: r.Password,
 	}
 
-	if user.Password == "" {
-		err = fmt.Errorf("pasword is empty")
+	if err := u.Validate(); err != nil {
+		SendResponse(c, errno.ErrValidation, nil)
+		return
 	}
 
-	code, message := errno.DecodeError(err)
-	c.JSON(http.StatusOK, gin.H{"code": code, "message": message})
+	if err := u.Encrypt(); err != nil {
+		SendResponse(c, errno.ErrDatabase, nil)
+		return
+	}
+
+	if err := u.Create(); err != nil {
+		SendResponse(c, errno.ErrDatabase, nil)
+		return
+	}
+
+	SendResponse(c, nil, nil)
 }
