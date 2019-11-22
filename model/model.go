@@ -5,8 +5,8 @@ import (
 )
 
 type BaseModel struct {
-	Id       uint64     `gorm: "primary_key;AUTO_INCREMENT;column:id" json:"-"`
-	CreateAt time.Time  `gorm: "column:createAt" json: "-"`
-	UpdateAt time.Time  `gorm: "column:updateAt" json: "-"`
-	DeleteAt *time.Time `gorm: "column:deleteAt" sql:"index" json: "-"`
+	Id       uint64     `gorm:"primary_key;AUTO_INCREMENT;column:id" json:"-"`
+	CreateAt time.Time  `gorm:"column:createdAt" json:"-"`
+	UpdateAt time.Time  `gorm:"column:updatedAt" json:"-"`
+	DeleteAt *time.Time `gorm:"column:deletedAt" sql:"index" json:"-"`
 }

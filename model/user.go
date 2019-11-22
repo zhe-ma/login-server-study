@@ -23,7 +23,7 @@ func (u *UserModel) Validate() error {
 	validate := validator.New()
 	return validate.Struct(u)
 }
-func (u *UserModel) Encrypt() error {
+func (u *UserModel) Encrypt() (err error) {
 	u.Password, err = util.Encrypt(u.Password)
 	return err
 }

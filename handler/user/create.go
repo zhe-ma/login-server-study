@@ -1,14 +1,12 @@
 package user
 
 import (
-	"fmt"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
 	"github.com/lexkong/log/lager"
-	"github.com/zhe-ma/login-server-study/handler/handler"
+	"github.com/zhe-ma/login-server-study/handler"
 	"github.com/zhe-ma/login-server-study/model"
+
 	"github.com/zhe-ma/login-server-study/pkg/errno"
 	"github.com/zhe-ma/login-server-study/util"
 )
@@ -18,7 +16,8 @@ func Create(c *gin.Context) {
 
 	var r CeateRequest
 	if err := c.Bind(&r); err != nil {
-		SendResponse(c, errno.ErrBind, nil)
+
+		handler.SendResponse(c, errno.ErrBind, nil)
 		return
 	}
 
@@ -28,19 +27,22 @@ func Create(c *gin.Context) {
 	}
 
 	if err := u.Validate(); err != nil {
-		SendResponse(c, errno.ErrValidation, nil)
+		log.Error("Failed to validate user data.", err)
+		handler.SendResponse(c, errno.ErrValidation, nil)
 		return
 	}
 
 	if err := u.Encrypt(); err != nil {
-		SendResponse(c, errno.ErrDatabase, nil)
+		log.Error("Failed to encrypt user password.", err)
+		handler.SendResponse(c, errno.ErrDatabase, nil)
 		return
 	}
 
 	if err := u.Create(); err != nil {
-		SendResponse(c, errno.ErrDatabase, nil)
+		log.Error("Failed to create user in DB.", err)
+		handler.SendResponse(c, errno.ErrDatabase, nil)
 		return
 	}
 
-	SendResponse(c, nil, nil)
+	handler.SendResponse(c, nil, nil)
 }

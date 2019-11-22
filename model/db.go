@@ -17,19 +17,19 @@ type Database struct {
 var DB *Database
 
 func (db *Database) Open() {
-	db = &Database{
+	DB = &Database{
 		Self:   OpenSelfDb(),
 		Docker: nil,
 	}
 }
 
 func (db *Database) Close() {
-	if db.Self != nil {
-		db.Self.Close()
+	if DB.Self != nil {
+		DB.Self.Close()
 	}
 
-	if db.Docker != nil {
-		db.Docker.Close()
+	if DB.Docker != nil {
+		DB.Docker.Close()
 	}
 
 	// DB.Docker.Close()

@@ -2,7 +2,7 @@ package util
 
 import (
 	"github.com/gin-gonic/gin"
-	"golang.org/x/cryto/bcrypt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func GetRequestId(c *gin.Context) string {
@@ -11,7 +11,7 @@ func GetRequestId(c *gin.Context) string {
 		return ""
 	}
 
-	if requestId, ok := v.(string); ok {
+	if requestId, ok := value.(string); ok {
 		return requestId
 	}
 
