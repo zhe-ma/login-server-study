@@ -19,6 +19,12 @@ func (u *UserModel) Create() error {
 	return DB.Self.Create(&u).Error
 }
 
+func GetUser(username string) (*UserModel, error) {
+	user := &UserModel{}
+	db := DB.Self.Where("username = ?", username).First(&user)
+	return user, db.Error
+}
+
 func (u *UserModel) Validate() error {
 	validate := validator.New()
 	return validate.Struct(u)

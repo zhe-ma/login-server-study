@@ -23,9 +23,10 @@ func Load(engine *gin.Engine, middlewares ...gin.HandlerFunc) *gin.Engine {
 	engine.GET("/version", handler.GetVersion)
 	engine.GET("/computer_info", handler.GetComputerInfo)
 
-	userGroup := engine.Group("/users")
+	userGroup := engine.Group("v1/users")
 	{
 		userGroup.POST("", user.Create)
+		userGroup.POST("/:username", user.Get)
 	}
 
 	return engine
