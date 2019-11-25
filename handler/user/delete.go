@@ -13,18 +13,17 @@ import (
 	"github.com/zhe-ma/login-server-study/util"
 )
 
-func Get(c *gin.Context) {
+func Delete(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
+	log.Infof("Delete user. User id: %s.", id)
 
-	log.Infof("Get user info. User id: %d.", id)
-
-	u, err := model.GetUser(id)
+	err := model.DeleteUser(id)
 
 	// 如何区分无此人，和数据库操作失败还是rowaffected?。
 	if err != nil {
-		handler.SendResponse(c, errno.ErrUserNotFound, nil)
+		handler.SendResponse(c, errno.ErrDatabase, nil)
 		return
 	}
 
-	handler.SendResponse(c, nil, u)
+	handler.SendResponse(c, nil, nil)
 }

@@ -1,6 +1,8 @@
 package user
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
 	"github.com/lexkong/log/lager"
@@ -12,18 +14,16 @@ import (
 )
 
 func Create(c *gin.Context) {
-	log.Info("User create function called.", lager.Data{"X-Request-Id": util.GetRequestId(c)})
+	log.Info("User update function called.", lager.Data{"X-Request-Id": util.GetRequestId(c)})
 
-	var r CeateRequest
-	if err := c.Bind(&r); err != nil {
+	var u model.UserModel
+	if err := c.Bind(&u); err != nil {
 		handler.SendResponse(c, errno.ErrBind, nil)
 		return
 	}
 
-	u := model.UserModel{
-		Username: r.Username,
-		Password: r.Password,
-	}
+	userId, _ := strconv.Atoi(c.Param("id"))
+	u.Id = userId
 
 	if err := u.Validate(); err != nil {
 		log.Error("Failed to validate user data.", err)
@@ -37,7 +37,8 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	if err := u.Create(); err != nil {
+	// 如何区分无此人，和数据库操作失败还是rowaffected?。
+	if err := u.Update(); err != nil {
 		log.Error("Failed to create user in DB.", err)
 		handler.SendResponse(c, errno.ErrDatabase, nil)
 		return

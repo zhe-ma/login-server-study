@@ -26,7 +26,9 @@ func Load(engine *gin.Engine, middlewares ...gin.HandlerFunc) *gin.Engine {
 	userGroup := engine.Group("v1/users")
 	{
 		userGroup.POST("", user.Create)
-		userGroup.POST("/:username", user.Get)
+		userGroup.GET("/:id", user.Get)
+		userGroup.DELETE("/:id", user.Delete)
+		userGroup.PUT("/:id", user.Update)
 	}
 
 	return engine

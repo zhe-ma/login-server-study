@@ -15,21 +15,32 @@ func (u *UserModel) TableName() string {
 	return "tb_users"
 }
 
-func (u *UserModel) Create() error {
-	return DB.Self.Create(&u).Error
-}
-
-func GetUser(username string) (*UserModel, error) {
-	user := &UserModel{}
-	db := DB.Self.Where("username = ?", username).First(&user)
-	return user, db.Error
-}
-
 func (u *UserModel) Validate() error {
 	validate := validator.New()
 	return validate.Struct(u)
 }
+
 func (u *UserModel) Encrypt() (err error) {
 	u.Password, err = util.Encrypt(u.Password)
 	return err
+}
+
+func (u *UserModel) Create() error {
+	return DB.Self.Create(&u).Error
+}
+
+func GetUser(id int64) (*UserModel, error) {
+	user := &UserModel{}
+	db := DB.Self.Where("id = ?", id).First(&user)
+	return user, db.Error
+}
+
+func DeleteUser(id int64) error {
+	u := &UserModel{}
+	u.BaseModel.Id = id
+	return DB.Self.Delete(&u).Error
+}
+
+func (u *UserModel) Update() error {
+	return DB.Self.Save(&u).Error
 }
