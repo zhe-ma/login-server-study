@@ -31,8 +31,6 @@ func (db *Database) Close() {
 	if DB.Docker != nil {
 		DB.Docker.Close()
 	}
-
-	// DB.Docker.Close()
 }
 
 func OpenSelfDb() *gorm.DB {
@@ -64,6 +62,8 @@ func OpenMysqlDB(username, password, addr, dbName string) *gorm.DB {
 	if err != nil {
 		log.Errorf(err, "Failed to connection DB")
 	}
+
+	db.LogMode(true)
 
 	setupDB(db)
 

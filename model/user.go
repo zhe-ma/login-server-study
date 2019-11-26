@@ -1,6 +1,8 @@
 package model
 
 import (
+	"fmt"
+
 	"github.com/zhe-ma/login-server-study/util"
 	validator "gopkg.in/go-playground/validator.v9"
 )
@@ -37,10 +39,27 @@ func GetUser(id uint64) (*UserModel, error) {
 
 func DeleteUser(id uint64) error {
 	u := &UserModel{}
-	u.BaseModel.Id = id
+	u.BaseModel.ID = id
 	return DB.Self.Delete(&u).Error
 }
 
 func (u *UserModel) Update() error {
 	return DB.Self.Save(&u).Error
+}
+
+func ListUsers(username string, limit uint64, offset uint64) (uint64, *[]UserModel, error) {
+	var totalCount uint64 = 0
+	userInfos := make([]UserModel, 0)
+
+	where := fmt.Sprintf("username like %%%s%%", username)
+
+	if err := DB.Self.Where(where).Count(&totalCount).Error; err != nil {
+		return totalCount, &userInfos, err
+	}
+
+	if err := DB.Self.Where(where).Limit(limit).Offset(offset).Order("id ASC").Find(&userInfos).Error; err != nil {
+		return totalCount, &userInfos, err
+	}
+
+	return totalCount, &userInfos, nil
 }

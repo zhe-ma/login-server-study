@@ -23,7 +23,7 @@ func Update(c *gin.Context) {
 	}
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	u.Id = uint64(id)
+	u.ID = uint64(id)
 
 	if err := u.Validate(); err != nil {
 		log.Error("Failed to validate user data.", err)

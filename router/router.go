@@ -29,6 +29,7 @@ func Load(engine *gin.Engine, middlewares ...gin.HandlerFunc) *gin.Engine {
 		userGroup.GET("/:id", user.Get)
 		userGroup.DELETE("/:id", user.Delete)
 		userGroup.PUT("/:id", user.Update)
+		userGroup.GET("", user.List)
 	}
 
 	return engine
