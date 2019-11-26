@@ -29,13 +29,13 @@ func (u *UserModel) Create() error {
 	return DB.Self.Create(&u).Error
 }
 
-func GetUser(id int64) (*UserModel, error) {
+func GetUser(id uint64) (*UserModel, error) {
 	user := &UserModel{}
 	db := DB.Self.Where("id = ?", id).First(&user)
 	return user, db.Error
 }
 
-func DeleteUser(id int64) error {
+func DeleteUser(id uint64) error {
 	u := &UserModel{}
 	u.BaseModel.Id = id
 	return DB.Self.Delete(&u).Error

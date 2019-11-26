@@ -13,7 +13,7 @@ import (
 	"github.com/zhe-ma/login-server-study/util"
 )
 
-func Create(c *gin.Context) {
+func Update(c *gin.Context) {
 	log.Info("User update function called.", lager.Data{"X-Request-Id": util.GetRequestId(c)})
 
 	var u model.UserModel
@@ -22,8 +22,8 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	userId, _ := strconv.Atoi(c.Param("id"))
-	u.Id = userId
+	id, _ := strconv.Atoi(c.Param("id"))
+	u.Id = uint64(id)
 
 	if err := u.Validate(); err != nil {
 		log.Error("Failed to validate user data.", err)
