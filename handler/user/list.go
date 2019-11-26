@@ -32,14 +32,21 @@ func List(c *gin.Context) {
 		return
 	}
 
-	userInfos := make([]UserInfo, 0)
-	for _, userModel := range *userModels {
-		append()
+	userInfos := make([]*UserInfo, 0)
+	for _, userModel := range userModels {
+		userInfos = append(userInfos, &UserInfo{
+			Id:       userModel.ID,
+			Username: userModel.Username,
+			Password: userModel.Password,
+			CreateAt: userModel.CreateAt,
+			UpdateAt: userModel.UpdateAt,
+		})
 	}
 
-	// userInfos := &ListResponse{
-	// 	TotalCount: totalCount,
-	// }
+	userInfos := &ListResponse{
+		TotalCount: totalCount,
+		UserInfos:  userInfos,
+	}
 
 	handler.SendResponse(c, nil, userInfos)
 }

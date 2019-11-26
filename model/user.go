@@ -47,9 +47,9 @@ func (u *UserModel) Update() error {
 	return DB.Self.Save(&u).Error
 }
 
-func ListUsers(username string, limit uint64, offset uint64) (uint64, *[]UserModel, error) {
+func ListUsers(username string, limit uint64, offset uint64) (uint64, []*UserModel, error) {
 	var totalCount uint64 = 0
-	userInfos := make([]UserModel, 0)
+	userInfos := make([]*UserModel, 0)
 
 	where := fmt.Sprintf("username like %%%s%%", username)
 
@@ -61,5 +61,5 @@ func ListUsers(username string, limit uint64, offset uint64) (uint64, *[]UserMod
 		return totalCount, &userInfos, err
 	}
 
-	return totalCount, &userInfos, nil
+	return totalCount, userInfos, nil
 }
