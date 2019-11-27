@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 
+	"github.com/lexkong/log"
 	"github.com/zhe-ma/login-server-study/util"
 	validator "gopkg.in/go-playground/validator.v9"
 )
@@ -51,14 +52,15 @@ func ListUsers(username string, limit uint64, offset uint64) (uint64, []*UserMod
 	var totalCount uint64 = 0
 	userInfos := make([]*UserModel, 0)
 
-	where := fmt.Sprintf("username like %%%s%%", username)
+	where := fmt.Sprintf("username like '%%%s%%'", username)
+	log.Debugf("QueryUsers where sql:%s.", where)
 
-	if err := DB.Self.Where(where).Count(&totalCount).Error; err != nil {
-		return totalCount, &userInfos, err
+	if err := DB.Self.Model(&UserModel{}).Where(where).Count(&totalCount).Error; err != nil {
+		return totalCount, userInfos, err
 	}
 
 	if err := DB.Self.Where(where).Limit(limit).Offset(offset).Order("id ASC").Find(&userInfos).Error; err != nil {
-		return totalCount, &userInfos, err
+		return totalCount, userInfos, err
 	}
 
 	return totalCount, userInfos, nil

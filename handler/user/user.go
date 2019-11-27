@@ -8,8 +8,8 @@ type CeateRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
-type UserInfo struct {
-	Id       uint64    `json:"id"`
+type Info struct {
+	ID       uint64    `json:"id"`
 	Username string    `json:"username"`
 	Password string    `json:"password"`
 	CreateAt time.Time `json:"createTime"`
@@ -17,6 +17,6 @@ type UserInfo struct {
 }
 
 type ListResponse struct {
-	TotalCount uint64      `json:"totalCount"`
-	UserInfos  []*UserInfo `json:userInfos`
+	TotalCount uint64  `json:"totalCount"`
+	UserInfos  []*Info `json:"userInfos"`
 }
