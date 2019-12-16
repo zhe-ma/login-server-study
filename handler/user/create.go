@@ -14,7 +14,7 @@ import (
 func Create(c *gin.Context) {
 	log.Info("User create function called.", lager.Data{"X-Request-Id": util.GetRequestId(c)})
 
-	var r CeateRequest
+	var r BasicUserRequest
 	if err := c.Bind(&r); err != nil {
 		handler.SendResponse(c, errno.ErrBind, nil)
 		return

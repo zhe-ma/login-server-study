@@ -54,8 +54,3 @@ func DecodeError(err error) (int, string) {
 
 	return InternalServerError.Code, err.Error()
 }
-
-func IsErrUserNotFound(err error) bool {
-	code, _ := DecodeError(err)
-	return code == ErrUserNotFound.Code
-}

@@ -23,7 +23,10 @@ func Load(engine *gin.Engine, middlewares ...gin.HandlerFunc) *gin.Engine {
 	engine.GET("/version", handler.GetVersion)
 	engine.GET("/computer_info", handler.GetComputerInfo)
 
+	engine.POST("v1/login", user.Login)
+
 	userGroup := engine.Group("v1/users")
+	userGroup.Use(middleware.AuthMiddleware())
 	{
 		userGroup.POST("", user.Create)
 		userGroup.GET("/:id", user.Get)

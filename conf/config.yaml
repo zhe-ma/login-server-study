@@ -1,6 +1,7 @@
 port : :8080  # Http server port.
 run_mode : debug  # Server running Mode: debug, release, test.
 max_ping_count : 10  #  Self check count.
+jwt_secret : jg3R67XjEsiwxylpnMS4ICXfc7UWAxwk
 log:
   writers: file,stdout
   logger_level: DEBUG

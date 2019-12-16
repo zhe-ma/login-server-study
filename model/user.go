@@ -38,6 +38,12 @@ func GetUser(id uint64) (*UserModel, error) {
 	return user, db.Error
 }
 
+func GetUserByName(username string) (*UserModel, error) {
+	user := &UserModel{}
+	db := DB.Self.Where("username = ?", username).First(&user)
+	return user, db.Error
+}
+
 func DeleteUser(id uint64) error {
 	u := &UserModel{}
 	u.BaseModel.ID = id

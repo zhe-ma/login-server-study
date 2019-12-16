@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type CeateRequest struct {
+type BasicUserRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -19,4 +19,8 @@ type Info struct {
 type ListResponse struct {
 	TotalCount uint64  `json:"totalCount"`
 	UserInfos  []*Info `json:"userInfos"`
+}
+
+type Token struct {
+	Token string `json:"token"`
 }

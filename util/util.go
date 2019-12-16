@@ -23,6 +23,6 @@ func Encrypt(source string) (string, error) {
 	return string(hashedBytes), err
 }
 
-func Compare(hashedPassword, password string) error {
+func ComparePassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
