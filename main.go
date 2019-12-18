@@ -60,5 +60,15 @@ func main() {
 		log.Debug("Ping server successfully!")
 	}()
 
-	engine.Run(viper.GetString("port"))
+	cert := viper.GetString("tls.cert")
+	key := viper.GetString("tls.key")
+	if cert != "" && key != "" {
+		go func() {
+			err := http.ListenAndServeTLS(viper.GetString("tls.port"), cert, key, engine).Error()
+			log.Infof("Start https server. Port:%s. Error:%s.", viper.GetString("tls.port"), err)
+		}()
+	}
+
+	err := http.ListenAndServe(viper.GetString("port"), engine).Error()
+	log.Infof("Start http server. Port:%s. Error:%s.", viper.GetString("port"), err)
 }

@@ -1,7 +1,11 @@
-port : :8080  # Http server port.
-run_mode : debug  # Server running Mode: debug, release, test.
-max_ping_count : 10  #  Self check count.
-jwt_secret : jg3R67XjEsiwxylpnMS4ICXfc7UWAxwk
+port: :8080  # Http server port.
+run_mode: debug  # Server running Mode: debug, release, test.
+max_ping_count: 10  #  Self check count.
+jwt_secret: jg3R67XjEsiwxylpnMS4ICXfc7UWAxwk
+tls:
+  port: 8081
+  cert: conf/server.crt
+  key: conf/server.key
 log:
   writers: file,stdout
   logger_level: DEBUG
