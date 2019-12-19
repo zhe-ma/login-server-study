@@ -1,11 +1,11 @@
 all: gotool
 	@go build -v .
 clean:
-	rm -f login-server-study
+	rm -f login-server-study.exe
 	find . -name "[._]*.s[a-w][a-z]" | xargs -i rm -f {}
 gotool:
-	gofmt -w .  # 格式化代码
-	go tool vet . | grep -v vendor;true  # 跳过vendor目录进行静态代码检查
+	gofmt -w . 
+	go tool vet . | grep -v vendor;true 
 ca:
 	openssl req -new -nodes -x509 -out conf/server.crt -keyout conf/server.key -days 3650 -subj "/C=DE/ST=NRW/L=Earth/O=Random Company/OU=IT/CN=127.0.0.1/emailAddress=xxxxx@qq.com"
 
