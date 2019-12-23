@@ -1,5 +1,5 @@
 all: gotool
-	@go build -v .
+	@go build -mod=vendor
 clean:
 	rm -f login-server-study.exe
 	find . -name "[._]*.s[a-w][a-z]" | xargs -i rm -f {}
