@@ -11,6 +11,14 @@ import (
 	"github.com/zhe-ma/login-server-study/pkg/errno"
 )
 
+// @Summary Delete an user by the user identifier
+// @Description Delete user by ID
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param id path uint64 true "The user's database id index num"
+// @Success 200 {object} handler.Response "{"code":0,"message":"OK","data":null}"
+// @Router /user/{id} [delete]
 func Delete(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	log.Infof("Delete user. User id: %d.", id)

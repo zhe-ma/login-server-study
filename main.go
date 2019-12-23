@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
 	"github.com/spf13/pflag"
@@ -49,6 +50,7 @@ func main() {
 
 	middlewares := []gin.HandlerFunc{}
 
+	pprof.Register(engine)
 	router.Load(engine, middlewares...)
 
 	go func() {

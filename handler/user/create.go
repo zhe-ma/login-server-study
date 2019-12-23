@@ -11,6 +11,14 @@ import (
 	"github.com/zhe-ma/login-server-study/util"
 )
 
+// @Summary Add new user to the database
+// @Description Add a new user
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param user body user.BasicUserRequest true "Create a new user"
+// @Success 200 {object} handler.Response "{"code":0,"message":"OK","data":{"username":"kong"}}"
+// @Router /user [post]
 func Create(c *gin.Context) {
 	log.Info("User create function called.", lager.Data{"X-Request-Id": util.GetRequestId(c)})
 
