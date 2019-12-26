@@ -5,7 +5,7 @@
 5. - [ ] 业务层model和数据库层model区分的不清晰。
 6. - [ ] 完善自检功能，有warning。
 7. - [ ] 包管理vendor？
-8. - [ ] 完善Readme
+8. - [x] 完善Readme
 9. - [ ] windows中MakeFile的使用
 10. - [ ] 在linux搭建该项目，使用VSCODE + WSL。
 
